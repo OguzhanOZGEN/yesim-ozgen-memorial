@@ -6,11 +6,12 @@ import { ResumeData } from '@/types';
 
 export function ResumePage() {
   const { isAdmin } = useAuth();
-  const { t } = useLanguage();
-  const [resume, setResume] = useState<ResumeData>({ content: '', lastUpdated: '' });
+  const { language, t } = useLanguage();
+  const [resume, setResume] = useState<ResumeData>({ content: '', contentEn: '', lastUpdated: '' });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState('');
+  const [editContentTr, setEditContentTr] = useState('');
+  const [editContentEn, setEditContentEn] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -18,7 +19,8 @@ export function ResumePage() {
       try {
         const data = await getResume();
         setResume(data);
-        setEditContent(data.content);
+        setEditContentTr(data.content);
+        setEditContentEn(data.contentEn || '');
       } catch (error) {
         console.error('Özgeçmiş yüklenirken hata:', error);
       } finally {
@@ -31,7 +33,7 @@ export function ResumePage() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const updated = await updateResume(editContent);
+      const updated = await updateResume(editContentTr, editContentEn);
       setResume(updated);
       setIsEditing(false);
     } catch (error) {
@@ -43,7 +45,8 @@ export function ResumePage() {
   };
 
   const handleCancel = () => {
-    setEditContent(resume.content);
+    setEditContentTr(resume.content);
+    setEditContentEn(resume.contentEn || '');
     setIsEditing(false);
   };
 
@@ -87,42 +90,38 @@ export function ResumePage() {
 
         {/* Content */}
         {isAdmin && isEditing ? (
-          <div className="p-4">
-            {/* Simple toolbar (visual only for now) */}
-            <div className="mb-[-1px] flex items-center gap-1 rounded-t-lg border border-gray-300 bg-gray-100 p-2 dark:border-gray-700 dark:bg-gray-800/50">
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Bold">
-                <span className="material-symbols-outlined !text-xl">format_bold</span>
-              </button>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Italic">
-                <span className="material-symbols-outlined !text-xl">format_italic</span>
-              </button>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Underline">
-                <span className="material-symbols-outlined !text-xl">format_underlined</span>
-              </button>
-              <div className="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-2"></div>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Bullet List">
-                <span className="material-symbols-outlined !text-xl">format_list_bulleted</span>
-              </button>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Numbered List">
-                <span className="material-symbols-outlined !text-xl">format_list_numbered</span>
-              </button>
-              <div className="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-2"></div>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Link">
-                <span className="material-symbols-outlined !text-xl">link</span>
-              </button>
-              <button type="button" className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Quote">
-                <span className="material-symbols-outlined !text-xl">format_quote</span>
-              </button>
+          <div className="p-4 space-y-6">
+            {/* Turkish Content */}
+            <div>
+              <label className="flex flex-col w-full">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <span className="material-symbols-outlined !text-base">language</span>
+                  <span>Türkçe İçerik</span>
+                </div>
+                <textarea
+                  value={editContentTr}
+                  onChange={(e) => setEditContentTr(e.target.value)}
+                  className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-64 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
+                  placeholder="Türkçe özgeçmiş içeriğini buraya yazın..."
+                />
+              </label>
             </div>
-            
-            <label className="flex flex-col w-full">
-              <textarea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-b-lg rounded-t-none text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-96 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
-                placeholder={t('resume.placeholder')}
-              />
-            </label>
+
+            {/* English Content */}
+            <div>
+              <label className="flex flex-col w-full">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <span className="material-symbols-outlined !text-base">language</span>
+                  <span>English Content</span>
+                </div>
+                <textarea
+                  value={editContentEn}
+                  onChange={(e) => setEditContentEn(e.target.value)}
+                  className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-64 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
+                  placeholder="Write English resume content here..."
+                />
+              </label>
+            </div>
             
             <div className="flex justify-start py-3">
               <div className="flex flex-1 gap-4 flex-wrap justify-start">
@@ -150,7 +149,7 @@ export function ResumePage() {
           <div className="p-4">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <div className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
-                {resume.content}
+                {language === 'en' ? (resume.contentEn || resume.content) : resume.content}
               </div>
             </div>
           </div>

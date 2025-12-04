@@ -6,11 +6,12 @@ import { AchievementsData } from '@/types';
 
 export function AchievementsPage() {
   const { isAdmin } = useAuth();
-  const { t } = useLanguage();
-  const [achievements, setAchievements] = useState<AchievementsData>({ content: '', lastUpdated: '' });
+  const { language, t } = useLanguage();
+  const [achievements, setAchievements] = useState<AchievementsData>({ content: '', contentEn: '', lastUpdated: '' });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState('');
+  const [editContentTr, setEditContentTr] = useState('');
+  const [editContentEn, setEditContentEn] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -18,7 +19,8 @@ export function AchievementsPage() {
       try {
         const data = await getAchievements();
         setAchievements(data);
-        setEditContent(data.content);
+        setEditContentTr(data.content);
+        setEditContentEn(data.contentEn || '');
       } catch (error) {
         console.error('Error loading achievements:', error);
       } finally {
@@ -31,7 +33,7 @@ export function AchievementsPage() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const updated = await updateAchievements(editContent);
+      const updated = await updateAchievements(editContentTr, editContentEn);
       setAchievements(updated);
       setIsEditing(false);
     } catch (error) {
@@ -43,7 +45,8 @@ export function AchievementsPage() {
   };
 
   const handleCancel = () => {
-    setEditContent(achievements.content);
+    setEditContentTr(achievements.content);
+    setEditContentEn(achievements.contentEn || '');
     setIsEditing(false);
   };
 
@@ -93,17 +96,35 @@ export function AchievementsPage() {
 
         {/* Content */}
         {isAdmin && isEditing ? (
-          <div className="flex flex-col gap-4 p-4">
-            <div className="flex flex-col w-full">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">
-                  {t('achievements.contentLabel')}
-                </p>
+          <div className="p-4 space-y-6">
+            {/* Turkish Content */}
+            <div>
+              <label className="flex flex-col w-full">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <span className="material-symbols-outlined !text-base">language</span>
+                  <span>Türkçe İçerik</span>
+                </div>
                 <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                  className="form-input flex w-full min-w-0 flex-1 resize-y overflow-y-auto rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-96 max-h-[600px] placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
-                  placeholder={t('achievements.placeholder')}
+                  value={editContentTr}
+                  onChange={(e) => setEditContentTr(e.target.value)}
+                  className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-64 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
+                  placeholder="Türkçe başarılar içeriğini buraya yazın..."
+                />
+              </label>
+            </div>
+
+            {/* English Content */}
+            <div>
+              <label className="flex flex-col w-full">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <span className="material-symbols-outlined !text-base">language</span>
+                  <span>English Content</span>
+                </div>
+                <textarea
+                  value={editContentEn}
+                  onChange={(e) => setEditContentEn(e.target.value)}
+                  className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-64 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
+                  placeholder="Write English achievements content here..."
                 />
               </label>
             </div>
@@ -134,7 +155,7 @@ export function AchievementsPage() {
           <div className="p-4">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <div className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
-                {achievements.content}
+                {language === 'en' ? (achievements.contentEn || achievements.content) : achievements.content}
               </div>
             </div>
           </div>

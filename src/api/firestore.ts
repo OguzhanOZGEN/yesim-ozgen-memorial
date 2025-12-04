@@ -29,6 +29,7 @@ const COLLECTIONS = {
   NOTES: 'notes',
   GALLERY: 'gallery',
   CONTACTS: 'contacts',
+  CONTACT_MESSAGES: 'contact_messages',
   SETTINGS: 'settings',
 };
 
@@ -266,6 +267,22 @@ export async function deleteContactPerson(id: string): Promise<boolean> {
   return true;
 }
 
+// ==================== CONTACT MESSAGES API ====================
+
+export async function submitContactMessage(message: Omit<import('@/types').ContactMessageInput, 'id'>): Promise<import('@/types').ContactMessage> {
+  const messagesRef = collection(db, COLLECTIONS.CONTACT_MESSAGES);
+  const newMessage = {
+    ...message,
+    createdAt: Timestamp.now(),
+  };
+  const docRef = await addDoc(messagesRef, newMessage);
+  return {
+    id: docRef.id,
+    ...message,
+    createdAt: newMessage.createdAt.toDate().toISOString(),
+  };
+}
+
 // ==================== RESUME API ====================
 
 export async function getResume(): Promise<ResumeData> {
@@ -276,25 +293,29 @@ export async function getResume(): Promise<ResumeData> {
     // Return default
     return {
       content: '',
+      contentEn: '',
       lastUpdated: new Date().toISOString(),
     };
   }
   
   return {
     content: snapshot.data().content || '',
+    contentEn: snapshot.data().contentEn || '',
     lastUpdated: timestampToISO(snapshot.data().lastUpdated || Timestamp.now()),
   };
 }
 
-export async function updateResume(content: string): Promise<ResumeData> {
+export async function updateResume(content: string, contentEn: string): Promise<ResumeData> {
   const resumeRef = doc(db, COLLECTIONS.SETTINGS, 'resume');
   const data = {
     content,
+    contentEn,
     lastUpdated: Timestamp.now(),
   };
   await setDoc(resumeRef, data);
   return {
     content,
+    contentEn,
     lastUpdated: data.lastUpdated.toDate().toISOString(),
   };
 }
@@ -308,25 +329,29 @@ export async function getAchievements(): Promise<AchievementsData> {
   if (!snapshot.exists()) {
     return {
       content: '',
+      contentEn: '',
       lastUpdated: new Date().toISOString(),
     };
   }
   
   return {
     content: snapshot.data().content || '',
+    contentEn: snapshot.data().contentEn || '',
     lastUpdated: timestampToISO(snapshot.data().lastUpdated || Timestamp.now()),
   };
 }
 
-export async function updateAchievements(content: string): Promise<AchievementsData> {
+export async function updateAchievements(content: string, contentEn: string): Promise<AchievementsData> {
   const achievementsRef = doc(db, COLLECTIONS.SETTINGS, 'achievements');
   const data = {
     content,
+    contentEn,
     lastUpdated: Timestamp.now(),
   };
   await setDoc(achievementsRef, data);
   return {
     content,
+    contentEn,
     lastUpdated: data.lastUpdated.toDate().toISOString(),
   };
 }

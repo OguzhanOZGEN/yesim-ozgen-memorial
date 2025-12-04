@@ -134,14 +134,18 @@ export const translations = {
     // Login Modal
     login: {
       title: 'Yönetici Girişi',
+      description: 'Anı sayfasını düzenlemek için lütfen giriş yapın.',
       username: 'Kullanıcı Adı',
       password: 'Şifre',
+      usernamePlaceholder: 'Kullanıcı adınızı giriniz',
+      passwordPlaceholder: 'Şifrenizi giriniz',
       loginButton: 'Giriş Yap',
       error: 'Geçersiz kullanıcı adı veya şifre',
     },
     // Footer
     footer: {
-      rights: 'Tüm hakları saklıdır',
+      memorial: 'Yeşim Özgen\'in anısına. Onu sevgi ve saygıyla anıyoruz.',
+      rights: 'Yeşim Özgen Anısına. Tüm hakları saklıdır',
     },
   },
   en: {
@@ -279,14 +283,18 @@ export const translations = {
     // Login Modal
     login: {
       title: 'Admin Login',
+      description: 'Please login to edit the memorial page.',
       username: 'Username',
       password: 'Password',
+      usernamePlaceholder: 'Enter your username',
+      passwordPlaceholder: 'Enter your password',
       loginButton: 'Login',
       error: 'Invalid username or password',
     },
     // Footer
     footer: {
-      rights: 'All rights reserved',
+      memorial: 'In memory of Yeşim Özgen. We remember her with love and respect.',
+      rights: 'Yeşim Özgen Memorial. All rights reserved',
     },
   },
 };

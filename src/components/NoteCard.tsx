@@ -54,7 +54,7 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
         <div className={`flex flex-col gap-3 ${hasImage ? 'flex-[2_2_0px]' : ''}`}>
           <div className="flex items-center justify-between flex-wrap gap-2">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {note.name} - {formatRelativeTime(note.createdAt)}
+              {note.name} - {formatRelativeTime(note.createdAt, language)}
               {showStatus && isPending && (
                 <span className="ml-2 text-amber-500">({t('notes.pending')})</span>
               )}

@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="border-t border-gray-200/10 dark:border-white/10 py-10 mt-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,42 +14,48 @@ export function Footer() {
               to="/"
               className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
             >
-              Ana Sayfa
+              {t('nav.home')}
             </Link>
             <Link
-              to="/ozgecmis"
+              to="/resume"
               className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
             >
-              Özgeçmiş
+              {t('nav.resume')}
             </Link>
             <Link
-              to="/galeri"
+              to="/gallery"
               className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
             >
-              Galeri
+              {t('nav.gallery')}
             </Link>
             <Link
-              to="/notlar"
+              to="/notes"
               className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
             >
-              Notlar
+              {t('nav.notes')}
             </Link>
             <Link
-              to="/iletisim"
+              to="/achievements"
               className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
             >
-              İletişim
+              {t('nav.achievements')}
+            </Link>
+            <Link
+              to="/contact"
+              className="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+            >
+              {t('nav.contact')}
             </Link>
           </div>
 
           {/* Memorial text */}
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-            Yeşim Özgen'in anısına. Onu sevgi ve saygıyla anıyoruz.
+            {t('footer.memorial')}
           </p>
 
           {/* Copyright */}
           <p className="text-center text-xs text-gray-400 dark:text-gray-500">
-            © {new Date().getFullYear()} Yeşim Özgen Anısına. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} {t('footer.rights')}
           </p>
         </div>
       </div>

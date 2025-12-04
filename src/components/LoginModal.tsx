@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const { login } = useAuth();
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -26,7 +28,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       setError('');
       onClose();
     } else {
-      setError('Geçersiz kullanıcı adı veya şifre');
+      setError(t('login.error'));
     }
   };
 
@@ -67,10 +69,10 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
         </button>
 
         <h2 className="text-center text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-display">
-          Giriş Yap
+          {t('login.title')}
         </h2>
         <p className="mt-2 text-center text-base text-zinc-600 dark:text-zinc-400">
-          Anı sayfasını düzenlemek için lütfen giriş yapın.
+          {t('login.description')}
         </p>
         
         <form onSubmit={handleSubmit} className="mt-8 w-full">
@@ -83,20 +85,20 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             
             <label className="flex flex-col">
               <p className="pb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                Kullanıcı Adı
+                {t('login.username')}
               </p>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="form-input h-12 w-full flex-1 resize-none overflow-hidden rounded-lg border border-zinc-300 bg-white p-3 text-base font-normal leading-normal text-zinc-900 placeholder:text-zinc-400 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500"
-                placeholder="Kullanıcı adınızı giriniz"
+                placeholder={t('login.usernamePlaceholder')}
               />
             </label>
             
             <label className="flex flex-col">
               <p className="pb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                Şifre
+                {t('login.password')}
               </p>
               <div className="flex w-full flex-1 items-stretch">
                 <input
@@ -104,7 +106,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-input h-12 w-full flex-1 resize-none overflow-hidden rounded-l-lg border border-r-0 border-zinc-300 bg-white p-3 text-base font-normal leading-normal text-zinc-900 placeholder:text-zinc-400 focus:z-10 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder:text-zinc-500"
-                  placeholder="Şifrenizi giriniz"
+                  placeholder={t('login.passwordPlaceholder')}
                 />
                 <button
                   type="button"
@@ -123,7 +125,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
               type="submit"
               className="flex h-12 w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-5 text-base font-bold leading-normal text-white shadow-sm transition-colors hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              <span className="truncate">Giriş Yap</span>
+              <span className="truncate">{t('login.loginButton')}</span>
             </button>
           </div>
         </form>

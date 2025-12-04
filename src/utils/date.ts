@@ -1,7 +1,7 @@
 /**
- * Format a date string to relative time (e.g., "2 gün önce")
+ * Format a date string to relative time (e.g., "2 days ago" / "2 gün önce")
  */
-export function formatRelativeTime(dateString: string): string {
+export function formatRelativeTime(dateString: string, language: 'tr' | 'en' = 'tr'): string {
   const date = new Date(dateString);
   const now = new Date();
   const diffInMs = now.getTime() - date.getTime();
@@ -11,38 +11,73 @@ export function formatRelativeTime(dateString: string): string {
   const diffInWeeks = Math.floor(diffInDays / 7);
   const diffInMonths = Math.floor(diffInDays / 30);
 
+  const translations = {
+    tr: {
+      justNow: 'az önce',
+      minutesAgo: (n: number) => `${n} dakika önce`,
+      hoursAgo: (n: number) => `${n} saat önce`,
+      yesterday: 'dün',
+      daysAgo: (n: number) => `${n} gün önce`,
+      weekAgo: '1 hafta önce',
+      weeksAgo: (n: number) => `${n} hafta önce`,
+      monthAgo: '1 ay önce',
+      monthsAgo: (n: number) => `${n} ay önce`
+    },
+    en: {
+      justNow: 'just now',
+      minutesAgo: (n: number) => `${n} minute${n > 1 ? 's' : ''} ago`,
+      hoursAgo: (n: number) => `${n} hour${n > 1 ? 's' : ''} ago`,
+      yesterday: 'yesterday',
+      daysAgo: (n: number) => `${n} day${n > 1 ? 's' : ''} ago`,
+      weekAgo: '1 week ago',
+      weeksAgo: (n: number) => `${n} week${n > 1 ? 's' : ''} ago`,
+      monthAgo: '1 month ago',
+      monthsAgo: (n: number) => `${n} month${n > 1 ? 's' : ''} ago`
+    }
+  };
+
+  const t = translations[language];
+
   if (diffInMinutes < 1) {
-    return 'az önce';
+    return t.justNow;
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} dakika önce`;
+    return t.minutesAgo(diffInMinutes);
   } else if (diffInHours < 24) {
-    return `${diffInHours} saat önce`;
+    return t.hoursAgo(diffInHours);
   } else if (diffInDays === 1) {
-    return 'dün';
+    return t.yesterday;
   } else if (diffInDays < 7) {
-    return `${diffInDays} gün önce`;
+    return t.daysAgo(diffInDays);
   } else if (diffInWeeks === 1) {
-    return '1 hafta önce';
+    return t.weekAgo;
   } else if (diffInWeeks < 4) {
-    return `${diffInWeeks} hafta önce`;
+    return t.weeksAgo(diffInWeeks);
   } else if (diffInMonths === 1) {
-    return '1 ay önce';
+    return t.monthAgo;
   } else if (diffInMonths < 12) {
-    return `${diffInMonths} ay önce`;
+    return t.monthsAgo(diffInMonths);
   } else {
-    return formatDate(dateString);
+    return formatDate(dateString, language);
   }
 }
 
 /**
- * Format a date string to a readable date (e.g., "15 Mayıs 2024")
+ * Format a date string to a readable date (e.g., "15 May 2024" / "15 Mayıs 2024")
  */
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: string, language: 'tr' | 'en' = 'tr'): string {
   const date = new Date(dateString);
-  const months = [
+  
+  const monthsTr = [
     'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
     'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
   ];
+  
+  const monthsEn = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  const months = language === 'en' ? monthsEn : monthsTr;
   
   const day = date.getDate();
   const month = months[date.getMonth()];

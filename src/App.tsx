@@ -17,11 +17,11 @@ function App() {
         <Routes>
           <Route path="/" element={<RootLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="ozgecmis" element={<ResumePage />} />
-            <Route path="galeri" element={<GalleryPage />} />
-            <Route path="notlar" element={<NotesPage />} />
-            <Route path="basarilar" element={<AchievementsPage />} />
-            <Route path="iletisim" element={<ContactPage />} />
+            <Route path="resume" element={<ResumePage />} />
+            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="notes" element={<NotesPage />} />
+            <Route path="achievements" element={<AchievementsPage />} />
+            <Route path="contact" element={<ContactPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

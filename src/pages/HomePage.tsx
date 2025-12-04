@@ -338,7 +338,7 @@ export function HomePage() {
                   </h2>
                 </div>
                 <Link
-                  to="/ozgecmis"
+                  to="/resume"
                   className="flex min-w-[84px] w-full md:w-auto max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 md:h-12 md:px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] md:text-base hover:bg-primary-dark transition-colors"
                 >
                   <span className="truncate">Hayatını Keşfedin</span>
@@ -466,7 +466,7 @@ export function HomePage() {
               ))
             )}
             <Link
-              to="/notlar"
+              to="/notes"
               className="text-primary hover:text-primary-dark text-sm font-medium text-center py-2"
             >
               Tüm notları görüntüle →
@@ -496,7 +496,7 @@ export function HomePage() {
           ))}
           
           <Link
-            to="/galeri"
+            to="/gallery"
             className="aspect-square bg-cover bg-center rounded-lg overflow-hidden cursor-pointer group"
           >
             <div className="w-full h-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">

@@ -5,11 +5,11 @@ import { LoginModal } from './LoginModal';
 
 const navLinks = [
   { path: '/', label: 'Ana Sayfa' },
-  { path: '/ozgecmis', label: 'Özgeçmiş' },
-  { path: '/galeri', label: 'Galeri' },
-  { path: '/notlar', label: 'Notlar' },
-  { path: '/basarilar', label: 'Başarılar' },
-  { path: '/iletisim', label: 'İletişim' },
+  { path: '/resume', label: 'Özgeçmiş' },
+  { path: '/gallery', label: 'Galeri' },
+  { path: '/notes', label: 'Notlar' },
+  { path: '/achievements', label: 'Başarılar' },
+  { path: '/contact', label: 'İletişim' },
 ];
 
 export function Navbar() {

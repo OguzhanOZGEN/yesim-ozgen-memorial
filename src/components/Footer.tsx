@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
+import { VisitorCounter } from './VisitorCounter';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -52,6 +53,11 @@ export function Footer() {
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">
             {t('footer.memorial')}
           </p>
+
+          {/* Visitor Counter */}
+          <div className="flex justify-center">
+            <VisitorCounter />
+          </div>
 
           {/* Copyright */}
           <p className="text-center text-xs text-gray-400 dark:text-gray-500">

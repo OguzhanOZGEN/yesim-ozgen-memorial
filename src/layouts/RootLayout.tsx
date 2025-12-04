@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Navbar, Footer } from '@/components';
+import { Navbar, Footer, BackgroundMusic } from '@/components';
 
 export function RootLayout() {
   return (
@@ -9,6 +9,7 @@ export function RootLayout() {
         <Outlet />
       </main>
       <Footer />
+      <BackgroundMusic />
     </div>
   );
 }

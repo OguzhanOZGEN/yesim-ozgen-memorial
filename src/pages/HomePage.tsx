@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { NoteCard, GalleryLightbox } from '@/components';
+import { NoteCard, GalleryLightbox, ShareButton } from '@/components';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { getApprovedNotes, submitNote, getGalleryImages, getHeroContent, updateHeroContent, seedInitialData } from '@/api/firestore';
@@ -86,10 +86,10 @@ export function HomePage() {
   };
 
   const handleSeedData = async () => {
-    if (confirm('Başlangıç verilerini yüklemek istediğinizden emin misiniz? (Zaten varsa etkilenmez)')) {
+    if (confirm(t('home.seedConfirm'))) {
       try {
         await seedInitialData();
-        alert('Başlangıç verileri yüklendi! Sayfa yenileniyor...');
+        alert(t('home.seedSuccess'));
         window.location.reload();
       } catch (error) {
         console.error('Seed hatası:', error);
@@ -226,18 +226,21 @@ export function HomePage() {
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
-      {/* Admin Controls */}
-      {isAdmin && (
-        <div className="container mx-auto px-4 pt-4">
+      {/* Admin Controls & Share Button */}
+      <div className="container mx-auto px-4 pt-4 flex justify-between items-center">
+        {isAdmin ? (
           <button
             onClick={handleSeedData}
             className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm"
           >
             <span className="material-symbols-outlined text-base">database</span>
-            <span>Başlangıç Verilerini Yükle</span>
+            <span>{t('home.seedData')}</span>
           </button>
-        </div>
-      )}
+        ) : (
+          <div />
+        )}
+        <ShareButton />
+      </div>
       
       {/* Hero Section */}
       <div className="@container">

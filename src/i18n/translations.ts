@@ -44,6 +44,9 @@ export const translations = {
       heroSubtitle: 'Alt Başlık',
       heroImage: 'Görsel',
       uploadImage: 'Görsel Yükle',
+      seedData: 'Başlangıç Verilerini Yükle',
+      seedConfirm: 'Başlangıç verilerini yüklemek istediğinizden emin misiniz? (Zaten varsa etkilenmez)',
+      seedSuccess: 'Başlangıç verileri yüklendi! Sayfa yenileniyor...',
     },
     // Resume Page
     resume: {
@@ -205,6 +208,9 @@ export const translations = {
       heroSubtitle: 'Subtitle',
       heroImage: 'Image',
       uploadImage: 'Upload Image',
+      seedData: 'Load Initial Data',
+      seedConfirm: 'Are you sure you want to load initial data? (Won\'t affect existing data)',
+      seedSuccess: 'Initial data loaded! Page refreshing...',
     },
     // Resume Page
     resume: {

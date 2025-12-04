@@ -1,8 +1,8 @@
-// Cloudinary Configuration
+// Cloudinary Configuration from environment variables
 
 export const CLOUDINARY_CONFIG = {
-  cloudName: 'dmbatziwg',
-  uploadPreset: 'memorial_uploads',
+  cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+  uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
 };
 
 // Cloudinary Upload Settings sekmesinden:

@@ -1,0 +1,44 @@
+{
+  "name": "yesim-ozgen-memorial",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Yeşim Özgen Memorial Website - A tribute website built with React, TypeScript, Tailwind CSS, Firebase, and Cloudinary",
+  "author": "Oğuzhan Özgen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/yesim-ozgen-memorial.git"
+  },
+  "keywords": [
+    "memorial",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "firebase",
+    "cloudinary"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "firebase": "^12.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  }
+}

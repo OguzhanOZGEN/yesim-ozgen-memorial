@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GalleryLightbox } from '@/components';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   getGalleryImages,
   addGalleryImage,
@@ -13,6 +14,7 @@ import { GalleryImage, GalleryImageInput } from '@/types';
 
 export function GalleryPage() {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -36,7 +38,7 @@ export function GalleryPage() {
         const data = await getGalleryImages();
         setImages(data);
       } catch (error) {
-        console.error('Galeri yükleme hatası:', error);
+        console.error('Gallery loading error:', error);
       } finally {
         setLoading(false);
       }
@@ -98,7 +100,7 @@ export function GalleryPage() {
       }
       
       if (!finalImageUrl) {
-        alert('Lütfen bir görsel seçin!');
+        alert(t('gallery.selectPhoto'));
         setIsUploading(false);
         return;
       }
@@ -121,15 +123,15 @@ export function GalleryPage() {
       setImageFile(null);
       setImagePreview('');
     } catch (error) {
-      console.error('Galeri görseli yükleme hatası:', error);
-      alert('Görsel yüklenirken hata oluştu!');
+      console.error('Gallery image upload error:', error);
+      alert(t('common.error'));
     } finally {
       setIsUploading(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Bu fotoğrafı silmek istediğinizden emin misiniz?')) {
+    if (confirm(t('gallery.deleteConfirm'))) {
       await deleteGalleryImage(id);
       const updatedImages = await getGalleryImages();
       setImages(updatedImages);
@@ -165,7 +167,7 @@ export function GalleryPage() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-4">
           <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
-          <p className="text-gray-500 dark:text-gray-400">Yükleniyor...</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -179,12 +181,12 @@ export function GalleryPage() {
           <div className="flex flex-wrap items-end justify-between gap-4 px-4 sm:px-6">
             <div className="flex flex-col gap-2">
               <h1 className="text-4xl font-black tracking-tighter text-gray-900 dark:text-white font-display">
-                {isAdmin ? 'Galeri Yönetimi' : 'Fotoğraf Galerisi'}
+                {isAdmin ? t('gallery.management') : t('gallery.photoGallery')}
               </h1>
               <p className="text-base text-gray-500 dark:text-gray-400">
                 {isAdmin
-                  ? 'Buradan yeni anı fotoğrafları ekleyebilir ve mevcut fotoğrafları düzenleyebilirsiniz.'
-                  : 'Yeşim Öğretmenin hayatından anılar'}
+                  ? t('gallery.adminDescription')
+                  : t('gallery.description')}
               </p>
             </div>
             
@@ -194,7 +196,7 @@ export function GalleryPage() {
                 className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm transition-colors hover:bg-primary-dark"
               >
                 <span className="material-symbols-outlined text-base">add_photo_alternate</span>
-                <span className="truncate">Yeni Fotoğraf Ekle</span>
+                <span className="truncate">{t('gallery.uploadNew')}</span>
               </button>
             )}
           </div>
@@ -270,37 +272,37 @@ export function GalleryPage() {
             </button>
             
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 font-display">
-              {editingImage ? 'Fotoğrafı Düzenle' : 'Yeni Fotoğraf Ekle'}
+              {editingImage ? t('gallery.editPhoto') : t('gallery.newPhoto')}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Başlık (İsteğe bağlı)
+                  {t('gallery.photoTitle')}
                 </p>
                 <input
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  placeholder="Fotoğraf başlığı"
+                  placeholder={t('gallery.titlePlaceholder')}
                 />
               </label>
               
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Açıklama (İsteğe bağlı)
+                  {t('gallery.photoDescription')}
                 </p>
                 <textarea
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
                   className="form-input w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20 min-h-24"
-                  placeholder="Fotoğraf açıklaması"
+                  placeholder={t('gallery.descriptionPlaceholder')}
                 />
               </label>
               
               <div className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Fotoğraf {editingImage && !imageFile && '(Değiştirmek için yeni seçin)'}
+                  {t('gallery.photo')} {editingImage && !imageFile && t('gallery.changePhoto')}
                 </p>
                 {!imagePreview && !imageFile ? (
                   <>
@@ -313,7 +315,7 @@ export function GalleryPage() {
                       <div className="flex items-center justify-center gap-2 h-24 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors">
                         <span className="material-symbols-outlined text-gray-400">add_photo_alternate</span>
                         <span className="text-gray-600 dark:text-gray-400 text-sm">
-                          {editingImage ? 'Yeni fotoğraf seç' : 'Fotoğraf seç'}
+                          {editingImage ? t('gallery.selectNewPhoto') : t('gallery.selectPhoto')}
                         </span>
                       </div>
                       <input
@@ -349,10 +351,10 @@ export function GalleryPage() {
                   {isUploading ? (
                     <>
                       <span className="material-symbols-outlined animate-spin">progress_activity</span>
-                      <span>Yükleniyor...</span>
+                      <span>{t('common.loading')}</span>
                     </>
                   ) : (
-                    editingImage ? 'Güncelle' : 'Ekle'
+                    editingImage ? t('common.save') : t('common.add')
                   )}
                 </button>
                 <button
@@ -360,7 +362,7 @@ export function GalleryPage() {
                   onClick={() => setIsModalOpen(false)}
                   className="flex-1 h-12 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
-                  İptal
+                  {t('common.cancel')}
                 </button>
               </div>
             </form>

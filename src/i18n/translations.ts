@@ -48,6 +48,9 @@ export const translations = {
     // Resume Page
     resume: {
       title: 'Özgeçmiş',
+      edit: 'Özgeçmişi Düzenle',
+      editInstructions: 'Lütfen aşağıdaki metin düzenleyiciyi kullanarak özgeçmişi güncelleyin ve \'Kaydet\' butonuna tıklayın.',
+      placeholder: 'Özgeçmiş metnini buraya yazın...',
       education: 'Eğitim',
       experience: 'Deneyim',
       skills: 'Yetenekler',
@@ -55,16 +58,32 @@ export const translations = {
     // Gallery Page
     gallery: {
       title: 'Galeri',
+      management: 'Galeri Yönetimi',
+      photoGallery: 'Fotoğraf Galerisi',
+      description: 'Yeşim Öğretmenin hayatından anılar',
+      adminDescription: 'Buradan yeni anı fotoğrafları ekleyebilir ve mevcut fotoğrafları düzenleyebilirsiniz.',
       addPhoto: 'Fotoğraf Ekle',
+      newPhoto: 'Yeni Fotoğraf Ekle',
       editPhoto: 'Fotoğrafı Düzenle',
       deleteConfirm: 'Bu fotoğrafı silmek istediğinizden emin misiniz?',
       photoTitle: 'Fotoğraf Başlığı',
       photoDescription: 'Açıklama',
+      photo: 'Fotoğraf',
+      selectPhoto: 'Fotoğraf seç',
+      selectNewPhoto: 'Yeni fotoğraf seç',
+      changePhoto: '(Değiştirmek için yeni seçin)',
       uploadNew: 'Yeni Fotoğraf Yükle',
+      titlePlaceholder: 'Fotoğraf başlığı',
+      descriptionPlaceholder: 'Fotoğraf açıklaması',
     },
     // Notes Page
     notes: {
       title: 'Notlar',
+      pageTitle: 'Yeşim Öğretmen İçin Notlar',
+      pageDescription: 'Yeşim Öğretmenimizin ardından sevenlerinin bıraktığı değerli notlar ve anılar.',
+      adminPanel: 'Yönetici Paneli: Onay Bekleyen Notlar',
+      adminPanelDescription: 'Bu bölüm yalnızca yönetici olarak giriş yaptığınızda görünür.',
+      publishedNotes: 'Yayınlanan Notlar',
       addNote: 'Not Ekle',
       editNote: 'Notu Düzenle',
       deleteConfirm: 'Bu notu silmek istediğinizden emin misiniz?',
@@ -76,10 +95,15 @@ export const translations = {
       approved: 'Onaylandı',
       approve: 'Onayla',
       reject: 'Reddet',
+      noPending: 'Onay bekleyen not yok.',
     },
     // Achievements Page
     achievements: {
       title: 'Başarılar',
+      edit: 'Başarıları Düzenle',
+      editInstructions: 'Yeşim Özgen\'in başarılarını ve katkılarını bu alana yazın. Değişiklikleri uygulamak için \'Kaydet\' butonuna tıklayın.',
+      contentLabel: 'Başarılar Metni',
+      placeholder: 'Başarılar metnini buraya yazın...',
       addAchievement: 'Başarı Ekle',
       editAchievement: 'Başarıyı Düzenle',
       deleteConfirm: 'Bu başarıyı silmek istediğinizden emin misiniz?',
@@ -90,12 +114,22 @@ export const translations = {
     // Contact Page
     contact: {
       title: 'İletişim',
+      description: 'Yeşim Özgen\'in ailesi ve yakınları ile iletişime geçebilirsiniz',
       name: 'İsim',
       email: 'E-posta',
+      phone: 'Telefon (İsteğe bağlı)',
+      relation: 'Yakınlık Derecesi',
       message: 'Mesaj',
       send: 'Gönder',
       success: 'Mesajınız başarıyla gönderildi!',
       error: 'Mesaj gönderilemedi. Lütfen tekrar deneyin.',
+      addPerson: 'Kişi Ekle',
+      editPerson: 'Kişiyi Düzenle',
+      deleteConfirm: 'Bu kişiyi silmek istediğinizden emin misiniz?',
+      namePlaceholder: 'İsim giriniz',
+      relationPlaceholder: 'Örn: Annesi, Kız kardeşi',
+      phonePlaceholder: '+90 5xx xxx xx xx',
+      emailPlaceholder: 'email@example.com',
     },
     // Login Modal
     login: {
@@ -159,6 +193,9 @@ export const translations = {
     // Resume Page
     resume: {
       title: 'Resume',
+      edit: 'Edit Resume',
+      editInstructions: 'Please use the text editor below to update the resume and click the \'Save\' button.',
+      placeholder: 'Write the resume text here...',
       education: 'Education',
       experience: 'Experience',
       skills: 'Skills',
@@ -166,16 +203,32 @@ export const translations = {
     // Gallery Page
     gallery: {
       title: 'Gallery',
+      management: 'Gallery Management',
+      photoGallery: 'Photo Gallery',
+      description: 'Memories from Yeşim\'s life',
+      adminDescription: 'Here you can add new memorial photos and edit existing ones.',
       addPhoto: 'Add Photo',
+      newPhoto: 'Add New Photo',
       editPhoto: 'Edit Photo',
       deleteConfirm: 'Are you sure you want to delete this photo?',
       photoTitle: 'Photo Title',
       photoDescription: 'Description',
+      photo: 'Photo',
+      selectPhoto: 'Select photo',
+      selectNewPhoto: 'Select new photo',
+      changePhoto: '(Select new to change)',
       uploadNew: 'Upload New Photo',
+      titlePlaceholder: 'Photo title',
+      descriptionPlaceholder: 'Photo description',
     },
     // Notes Page
     notes: {
       title: 'Notes',
+      pageTitle: 'Notes for Teacher Yeşim',
+      pageDescription: 'Precious notes and memories left by those who loved Teacher Yeşim.',
+      adminPanel: 'Admin Panel: Pending Notes',
+      adminPanelDescription: 'This section is only visible when logged in as administrator.',
+      publishedNotes: 'Published Notes',
       addNote: 'Add Note',
       editNote: 'Edit Note',
       deleteConfirm: 'Are you sure you want to delete this note?',
@@ -187,10 +240,15 @@ export const translations = {
       approved: 'Approved',
       approve: 'Approve',
       reject: 'Reject',
+      noPending: 'No pending notes.',
     },
     // Achievements Page
     achievements: {
       title: 'Achievements',
+      edit: 'Edit Achievements',
+      editInstructions: 'Write Yeşim Özgen\'s achievements and contributions in this area. Click the \'Save\' button to apply changes.',
+      contentLabel: 'Achievements Text',
+      placeholder: 'Write the achievements text here...',
       addAchievement: 'Add Achievement',
       editAchievement: 'Edit Achievement',
       deleteConfirm: 'Are you sure you want to delete this achievement?',
@@ -201,12 +259,22 @@ export const translations = {
     // Contact Page
     contact: {
       title: 'Contact',
+      description: 'You can contact Yeşim Özgen\'s family and relatives',
       name: 'Name',
       email: 'Email',
+      phone: 'Phone (Optional)',
+      relation: 'Relationship',
       message: 'Message',
       send: 'Send',
       success: 'Your message has been sent successfully!',
       error: 'Failed to send message. Please try again.',
+      addPerson: 'Add Person',
+      editPerson: 'Edit Person',
+      deleteConfirm: 'Are you sure you want to delete this person?',
+      namePlaceholder: 'Enter name',
+      relationPlaceholder: 'e.g., Mother, Sister',
+      phonePlaceholder: '+90 5xx xxx xx xx',
+      emailPlaceholder: 'email@example.com',
     },
     // Login Modal
     login: {

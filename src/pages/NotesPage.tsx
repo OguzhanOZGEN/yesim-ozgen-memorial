@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { NoteCard } from '@/components';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { getApprovedNotes, getPendingNotes, approveNote, rejectNote, deleteNote, updateNotes } from '@/api/firestore';
 import { Note } from '@/types';
 
 export function NotesPage() {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [approvedNotes, setApprovedNotes] = useState<Note[]>([]);
   const [pendingNotes, setPendingNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +26,7 @@ export function NotesPage() {
       setApprovedNotes(approved);
       setPendingNotes(pending);
     } catch (error) {
-      console.error('Notlar yüklenirken hata:', error);
+      console.error('Error loading notes:', error);
     } finally {
       setLoading(false);
     }
@@ -41,7 +43,7 @@ export function NotesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Bu notu kalıcı olarak silmek istediğinizden emin misiniz?')) {
+    if (confirm(t('notes.deleteConfirm'))) {
       await deleteNote(id);
       await loadNotes();
     }
@@ -76,7 +78,7 @@ export function NotesPage() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-4">
           <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
-          <p className="text-gray-500 dark:text-gray-400">Yükleniyor...</p>
+          <p className="text-gray-500 dark:text-gray-400">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -89,10 +91,10 @@ export function NotesPage() {
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6 px-4">
           <div className="flex max-w-xl flex-col gap-2">
             <h1 className="font-display text-4xl font-bold tracking-tighter text-gray-900 dark:text-white sm:text-5xl">
-              Yeşim Öğretmen İçin Notlar
+              {t('notes.pageTitle')}
             </h1>
             <p className="text-base text-gray-600 dark:text-gray-400">
-              Yeşim Öğretmenimizin ardından sevenlerinin bıraktığı değerli notlar ve anılar.
+              {t('notes.pageDescription')}
             </p>
           </div>
         </div>
@@ -106,11 +108,10 @@ export function NotesPage() {
               </span>
               <div className="flex flex-col gap-3 flex-1">
                 <h2 className="font-display text-2xl font-bold text-gray-800 dark:text-white">
-                  Yönetici Paneli: Onay Bekleyen Notlar
+                  {t('notes.adminPanel')}
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Bu bölüm yalnızca yönetici olarak giriş yaptığınızda görünür. 
-                  Yeni bir not gönderildiğinde e-posta ile bildirim alırsınız.
+                  {t('notes.adminPanelDescription')}
                 </p>
               </div>
             </div>
@@ -118,7 +119,7 @@ export function NotesPage() {
             <div className="mt-8 flex flex-col gap-6">
               {pendingNotes.length === 0 ? (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                  Şu anda onay bekleyen not bulunmuyor.
+                  {t('notes.noPending')}
                 </div>
               ) : (
                 pendingNotes.map((note) => (
@@ -138,12 +139,12 @@ export function NotesPage() {
         {/* Approved Notes */}
         <div className="flex flex-col gap-8">
           <h2 className="border-b border-gray-200 pb-2 font-display text-3xl font-bold text-gray-800 dark:border-gray-700 dark:text-white">
-            Yayınlanan Notlar
+            {t('notes.publishedNotes')}
           </h2>
           
           {approvedNotes.length === 0 ? (
             <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-              Henüz onaylanmış not bulunmuyor.
+              {t('notes.noPending')}
             </div>
           ) : (
             <div className="flex flex-col gap-8">

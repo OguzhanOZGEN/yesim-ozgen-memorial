@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   getContactPeople,
   addContactPerson,
@@ -11,6 +12,7 @@ import { ContactPerson } from '@/types';
 
 export function ContactPage() {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [contacts, setContacts] = useState<ContactPerson[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +32,7 @@ export function ContactPage() {
         const data = await getContactPeople();
         setContacts(data);
       } catch (error) {
-        console.error('Kişiler yüklenirken hata:', error);
+        console.error('Error loading contacts:', error);
       } finally {
         setLoading(false);
       }
@@ -81,22 +83,22 @@ export function ContactPage() {
       setContacts(updated);
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Kaydetme hatası:', error);
-      alert('Kaydetme sırasında hata oluştu!');
+      console.error('Save error:', error);
+      alert(t('common.error'));
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Bu kişiyi silmek istediğinizden emin misiniz?')) {
+    if (confirm(t('contact.deleteConfirm'))) {
       try {
         await deleteContactPerson(id);
         const updated = await getContactPeople();
         setContacts(updated);
       } catch (error) {
-        console.error('Silme hatası:', error);
-        alert('Silme sırasında hata oluştu!');
+        console.error('Delete error:', error);
+        alert(t('common.error'));
       }
     }
   };
@@ -123,7 +125,7 @@ export function ContactPage() {
       try {
         await updateContactPeople(contacts);
       } catch (error) {
-        console.error('Sıralama hatası:', error);
+        console.error('Ordering error:', error);
       }
     }
     setDraggedIndex(null);
@@ -144,10 +146,10 @@ export function ContactPage() {
         <div className="flex flex-wrap justify-between gap-4 p-4 items-center">
           <div className="flex flex-col gap-3">
             <p className="text-4xl font-black leading-tight tracking-[-0.033em] text-gray-900 dark:text-white font-display">
-              İletişim
+              {t('contact.title')}
             </p>
             <p className="text-base font-normal leading-normal text-gray-500 dark:text-gray-400">
-              Yeşim Özgen'in ailesi ve yakınları ile iletişime geçebilirsiniz
+              {t('contact.description')}
             </p>
           </div>
           
@@ -157,7 +159,7 @@ export function ContactPage() {
               className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary-dark transition-colors"
             >
               <span className="material-symbols-outlined !text-lg">add</span>
-              <span className="truncate">Kişi Ekle</span>
+              <span className="truncate">{t('contact.addPerson')}</span>
             </button>
           )}
         </div>
@@ -239,59 +241,59 @@ export function ContactPage() {
             </button>
             
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 font-display">
-              {editingContact ? 'Kişiyi Düzenle' : 'Yeni Kişi Ekle'}
+              {editingContact ? t('contact.editPerson') : t('contact.addPerson')}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Ad Soyad
+                  {t('contact.name')}
                 </p>
                 <input
                   required
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  placeholder="İsim giriniz"
+                  placeholder={t('contact.namePlaceholder')}
                 />
               </label>
               
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Yakınlık Derecesi
+                  {t('contact.relation')}
                 </p>
                 <input
                   required
                   value={formRelation}
                   onChange={(e) => setFormRelation(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  placeholder="Örn: Annesi, Kız kardeşi"
+                  placeholder={t('contact.relationPlaceholder')}
                 />
               </label>
               
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Telefon (İsteğe bağlı)
+                  {t('contact.phone')}
                 </p>
                 <input
                   type="tel"
                   value={formPhone}
                   onChange={(e) => setFormPhone(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  placeholder="+90 5xx xxx xx xx"
+                  placeholder={t('contact.phonePlaceholder')}
                 />
               </label>
               
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  E-posta (İsteğe bağlı)
+                  {t('contact.email')}
                 </p>
                 <input
                   type="email"
                   value={formEmail}
                   onChange={(e) => setFormEmail(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  placeholder="email@example.com"
+                  placeholder={t('contact.emailPlaceholder')}
                 />
               </label>
               
@@ -304,10 +306,10 @@ export function ContactPage() {
                   {isSubmitting ? (
                     <>
                       <span className="material-symbols-outlined animate-spin">progress_activity</span>
-                      <span>Kaydediliyor...</span>
+                      <span>{t('common.loading')}</span>
                     </>
                   ) : (
-                    <span>{editingContact ? 'Güncelle' : 'Ekle'}</span>
+                    <span>{editingContact ? t('common.save') : t('common.add')}</span>
                   )}
                 </button>
                 <button
@@ -315,7 +317,7 @@ export function ContactPage() {
                   onClick={() => setIsModalOpen(false)}
                   className="flex-1 h-12 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
-                  İptal
+                  {t('common.cancel')}
                 </button>
               </div>
             </form>

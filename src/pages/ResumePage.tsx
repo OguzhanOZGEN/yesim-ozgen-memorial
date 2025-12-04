@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { getResume, updateResume } from '@/api/firestore';
 import { ResumeData } from '@/types';
 
 export function ResumePage() {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [resume, setResume] = useState<ResumeData>({ content: '', lastUpdated: '' });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -63,11 +65,11 @@ export function ResumePage() {
         <div className="flex flex-wrap justify-between gap-4 p-4">
           <div className="flex flex-col gap-3">
             <p className="text-4xl font-black leading-tight tracking-[-0.033em] text-gray-900 dark:text-white font-display">
-              {isAdmin && isEditing ? 'Özgeçmişi Düzenle' : 'Özgeçmiş'}
+              {isAdmin && isEditing ? t('resume.edit') : t('resume.title')}
             </p>
             {isAdmin && isEditing && (
               <p className="text-base font-normal leading-normal text-gray-500 dark:text-gray-400">
-                Lütfen aşağıdaki metin düzenleyiciyi kullanarak özgeçmişi güncelleyin ve 'Kaydet' butonuna tıklayın.
+                {t('resume.editInstructions')}
               </p>
             )}
           </div>
@@ -78,7 +80,7 @@ export function ResumePage() {
               className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary-dark transition-colors"
             >
               <span className="material-symbols-outlined !text-lg">edit</span>
-              <span className="truncate">Düzenle</span>
+              <span className="truncate">{t('common.edit')}</span>
             </button>
           )}
         </div>
@@ -118,7 +120,7 @@ export function ResumePage() {
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
                 className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-b-lg rounded-t-none text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary border border-gray-300 bg-background-light dark:bg-background-dark dark:border-gray-700 min-h-96 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed"
-                placeholder="Özgeçmiş metnini buraya yazın..."
+                placeholder={t('resume.placeholder')}
               />
             </label>
             
@@ -132,14 +134,14 @@ export function ResumePage() {
                   {isSaving ? (
                     <span className="material-symbols-outlined animate-spin">progress_activity</span>
                   ) : (
-                    <span className="truncate">Kaydet</span>
+                    <span className="truncate">{t('common.save')}</span>
                   )}
                 </button>
                 <button
                   onClick={handleCancel}
                   className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-gray-200 text-gray-800 dark:bg-white/10 dark:text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
                 >
-                  <span className="truncate">İptal Et</span>
+                  <span className="truncate">{t('common.cancel')}</span>
                 </button>
               </div>
             </div>

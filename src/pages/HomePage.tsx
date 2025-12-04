@@ -6,6 +6,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { getApprovedNotes, submitNote, getGalleryImages, getHeroContent, updateHeroContent, seedInitialData } from '@/api/firestore';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import { NoteInput, Note, GalleryImage } from '@/types';
+import emailjs from '@emailjs/browser';
 
 interface HeroContent {
   title: string;
@@ -115,6 +116,25 @@ export function HomePage() {
       };
 
       await submitNote(noteInput);
+      
+      // Send email notification via EmailJS
+      try {
+        await emailjs.send(
+          'service_2vhgwme',
+          'template_cyr5rjg',
+          {
+            from_name: name.trim(),
+            from_email: 'Not gönderdi',
+            phone: 'Belirtilmedi',
+            message: `YENİ NOT GÖNDERİLDİ!\n\nGönderen: ${name.trim()}\n\nMesaj:\n${message.trim()}${finalImageUrl ? `\n\nGörsel: ${finalImageUrl}` : ''}`,
+            to_email: 'oguzhanozgen@hotmail.com',
+          },
+          'FqTSST5Xz-MN8Qjb7'
+        );
+      } catch (emailError) {
+        console.error('Email notification failed:', emailError);
+        // Don't block the user if email fails
+      }
       
       // Reset form
       setName('');

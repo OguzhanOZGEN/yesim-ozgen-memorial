@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Note } from '@/types';
 import { formatRelativeTime } from '@/utils/date';
 import { translateText } from '@/utils/translate';
+import { detectLanguage } from '@/utils/detectLanguage';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface NoteCardProps {
@@ -19,6 +20,10 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
   const [isTranslating, setIsTranslating] = useState(false);
   const [translatedMessage, setTranslatedMessage] = useState<string | null>(null);
   const [showTranslation, setShowTranslation] = useState(false);
+
+  // Detect note language and check if translation is needed
+  const noteLanguage = detectLanguage(note.message);
+  const needsTranslation = noteLanguage !== language;
 
   const handleTranslate = async () => {
     if (translatedMessage) {
@@ -60,21 +65,23 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
             {showTranslation && translatedMessage ? translatedMessage : note.message}
           </p>
 
-          {/* Translate Button */}
-          <button
-            onClick={handleTranslate}
-            disabled={isTranslating}
-            className="self-start flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-50"
-          >
-            <span className="material-symbols-outlined !text-sm">translate</span>
-            <span>
-              {isTranslating 
-                ? t('common.loading')
-                : showTranslation 
-                ? t('common.original')
-                : t('common.translate')}
-            </span>
-          </button>
+          {/* Translate Button - Only show if note is in different language */}
+          {needsTranslation && (
+            <button
+              onClick={handleTranslate}
+              disabled={isTranslating}
+              className="self-start flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-50"
+            >
+              <span className="material-symbols-outlined !text-sm">translate</span>
+              <span>
+                {isTranslating 
+                  ? t('common.loading')
+                  : showTranslation 
+                  ? t('common.original')
+                  : t('common.translate')}
+              </span>
+            </button>
+          )}
 
           {/* Admin Actions */}
           {isPending && onApprove && onReject && (

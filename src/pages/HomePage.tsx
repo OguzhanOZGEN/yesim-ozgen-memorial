@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { NoteCard, GalleryLightbox } from '@/components';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { getApprovedNotes, submitNote, getGalleryImages, getHeroContent, updateHeroContent, seedInitialData } from '@/api/firestore';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import { NoteInput, Note, GalleryImage } from '@/types';
@@ -14,6 +15,7 @@ interface HeroContent {
 
 export function HomePage() {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [notes, setNotes] = useState<Note[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -341,7 +343,7 @@ export function HomePage() {
                   to="/resume"
                   className="flex min-w-[84px] w-full md:w-auto max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 md:h-12 md:px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] md:text-base hover:bg-primary-dark transition-colors"
                 >
-                  <span className="truncate">Hayatını Keşfedin</span>
+                  <span className="truncate">{t('home.exploreLife')}</span>
                 </Link>
               </div>
             </>
@@ -352,7 +354,7 @@ export function HomePage() {
       {/* Share Your Memories Section */}
       <div className="flex flex-col gap-8 px-4 container mx-auto">
         <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b border-white/10 font-display">
-          Anılarınızı ve Düşüncelerinizi Paylaşın
+          {t('home.leaveComment')}
         </h2>
         
         <div className="flex flex-col lg:flex-row gap-12">
@@ -361,39 +363,39 @@ export function HomePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               {submitSuccess && (
                 <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400">
-                  Notunuz alındı. Yönetici onayından sonra yayınlanacaktır.
+                  {t('home.submitSuccess')}
                 </div>
               )}
               
               <label className="flex flex-col w-full">
                 <p className="text-white/90 text-base font-medium leading-normal pb-2">
-                  Adınız
+                  {t('home.yourName')}
                 </p>
                 <input
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/20 bg-white/5 focus:border-primary/80 h-14 placeholder:text-white/40 p-[15px] text-base font-normal leading-normal"
-                  placeholder="Adınızı buraya yazın"
+                  placeholder={t('home.yourName')}
                 />
               </label>
               
               <label className="flex flex-col w-full">
                 <p className="text-white/90 text-base font-medium leading-normal pb-2">
-                  Notunuz
+                  {t('home.yourMessage')}
                 </p>
                 <textarea
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/20 bg-white/5 focus:border-primary/80 min-h-36 placeholder:text-white/40 p-[15px] text-base font-normal leading-normal"
-                  placeholder="Yeşim Öğretmen ile ilgili anınızı veya notunuzu paylaşın"
+                  placeholder={t('home.yourMessage')}
                 />
               </label>
               
               <div className="flex flex-col gap-4">
                 <p className="text-white/90 text-base font-medium leading-normal">
-                  Resim Ekleyin (İsteğe Bağlı)
+                  {t('home.attachPhoto')}
                 </p>
                 
                 {!imagePreview ? (
@@ -402,8 +404,7 @@ export function HomePage() {
                       upload_file
                     </span>
                     <p className="mt-2 text-center text-sm text-white/70">
-                      Resminizi buraya sürükleyin veya{' '}
-                      <span className="font-semibold text-primary">yüklemek için tıklayın</span>
+                      {t('home.uploadImage')}
                     </p>
                     <input
                       type="file"
@@ -447,10 +448,10 @@ export function HomePage() {
                 {isSubmittingNote ? (
                   <>
                     <span className="material-symbols-outlined animate-spin text-base">progress_activity</span>
-                    <span className="truncate">Gönderiliyor...</span>
+                    <span className="truncate">{t('common.loading')}</span>
                   </>
                 ) : (
-                  <span className="truncate">Not Bırak</span>
+                  <span className="truncate">{t('home.submit')}</span>
                 )}
               </button>
             </form>
@@ -459,7 +460,7 @@ export function HomePage() {
           {/* Recent Approved Notes */}
           <div className="w-full lg:w-1/2 flex flex-col gap-4">
             {notes.length === 0 ? (
-              <p className="text-white/50 text-center py-8">Henüz onaylanmış not bulunmuyor.</p>
+              <p className="text-white/50 text-center py-8">{t('home.otherNotes')}</p>
             ) : (
               notes.map((note) => (
                 <NoteCard key={note.id} note={note} />
@@ -469,7 +470,7 @@ export function HomePage() {
               to="/notes"
               className="text-primary hover:text-primary-dark text-sm font-medium text-center py-2"
             >
-              Tüm notları görüntüle →
+              {t('home.readMore')} →
             </Link>
           </div>
         </div>
@@ -478,7 +479,7 @@ export function HomePage() {
       {/* Photo Gallery Section */}
       <div className="flex flex-col gap-8 px-4 container mx-auto pb-12">
         <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b border-white/10 font-display">
-          Fotoğraf Galerisi
+          {t('home.photos')}
         </h2>
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -500,7 +501,7 @@ export function HomePage() {
             className="aspect-square bg-cover bg-center rounded-lg overflow-hidden cursor-pointer group"
           >
             <div className="w-full h-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-              <span className="text-white/80 group-hover:text-white">Daha Fazla Gör</span>
+              <span className="text-white/80 group-hover:text-white">{t('home.readMore')}</span>
             </div>
           </Link>
         </div>

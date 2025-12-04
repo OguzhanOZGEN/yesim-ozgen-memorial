@@ -29,6 +29,21 @@ export const translations = {
     home: {
       memorial: 'Anısına',
       readMore: 'Devamını Oku',
+      exploreLife: 'Hayatını Keşfedin',
+      leaveComment: 'Yorum Yap',
+      photos: 'Fotoğraflar',
+      otherNotes: 'Diğer Notlar',
+      writeNote: 'Not Yaz',
+      yourName: 'Adınız',
+      yourMessage: 'Mesajınız',
+      attachPhoto: 'Fotoğraf Ekle (İsteğe Bağlı)',
+      submit: 'Gönder',
+      submitSuccess: 'Notunuz başarıyla gönderildi! Onaylandıktan sonra görünecektir.',
+      editHero: 'Ana Görsel Düzenle',
+      heroTitle: 'Başlık',
+      heroSubtitle: 'Alt Başlık',
+      heroImage: 'Görsel',
+      uploadImage: 'Görsel Yükle',
     },
     // Resume Page
     resume: {
@@ -125,6 +140,21 @@ export const translations = {
     home: {
       memorial: 'In Memory',
       readMore: 'Read More',
+      exploreLife: 'Explore Her Life',
+      leaveComment: 'Leave a Comment',
+      photos: 'Photos',
+      otherNotes: 'Other Notes',
+      writeNote: 'Write a Note',
+      yourName: 'Your Name',
+      yourMessage: 'Your Message',
+      attachPhoto: 'Attach Photo (Optional)',
+      submit: 'Submit',
+      submitSuccess: 'Your note has been submitted successfully! It will appear after approval.',
+      editHero: 'Edit Hero Section',
+      heroTitle: 'Title',
+      heroSubtitle: 'Subtitle',
+      heroImage: 'Image',
+      uploadImage: 'Upload Image',
     },
     // Resume Page
     resume: {

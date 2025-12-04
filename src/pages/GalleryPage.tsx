@@ -276,10 +276,9 @@ export function GalleryPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <label className="flex flex-col">
                 <p className="pb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Başlık
+                  Başlık (İsteğe bağlı)
                 </p>
                 <input
-                  required
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
                   className="form-input h-12 w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20"

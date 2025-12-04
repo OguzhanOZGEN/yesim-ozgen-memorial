@@ -6,6 +6,33 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/ozgecmis",
+        "destination": "/resume",
+        "type": 301
+      },
+      {
+        "source": "/galeri",
+        "destination": "/gallery",
+        "type": 301
+      },
+      {
+        "source": "/notlar",
+        "destination": "/notes",
+        "type": 301
+      },
+      {
+        "source": "/basarilar",
+        "destination": "/achievements",
+        "type": 301
+      },
+      {
+        "source": "/iletisim",
+        "destination": "/contact",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "**",

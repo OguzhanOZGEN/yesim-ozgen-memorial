@@ -1,22 +1,24 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { LoginModal } from './LoginModal';
-
-const navLinks = [
-  { path: '/', label: 'Ana Sayfa' },
-  { path: '/resume', label: 'Özgeçmiş' },
-  { path: '/gallery', label: 'Galeri' },
-  { path: '/notes', label: 'Notlar' },
-  { path: '/achievements', label: 'Başarılar' },
-  { path: '/contact', label: 'İletişim' },
-];
 
 export function Navbar() {
   const { isAdmin, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { path: '/', label: t('nav.home') },
+    { path: '/resume', label: t('nav.resume') },
+    { path: '/gallery', label: t('nav.gallery') },
+    { path: '/notes', label: t('nav.notes') },
+    { path: '/achievements', label: t('nav.achievements') },
+    { path: '/contact', label: t('nav.contact') },
+  ];
 
   return (
     <>
@@ -49,33 +51,52 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right side - Auth buttons */}
-          <div className="flex items-center gap-4">
+          {/* Right side - Language + Auth buttons */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/5 rounded-lg p-1">
+              <button
+                onClick={() => setLanguage('tr')}
+                className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-colors ${
+                  language === 'tr'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-primary'
+                }`}
+              >
+                TR
+              </button>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-colors ${
+                  language === 'en'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-primary'
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
             {isAdmin && (
               <div className="hidden sm:flex items-center gap-2 rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-primary">
                 <span className="material-symbols-outlined !text-sm">admin_panel_settings</span>
-                <span>Yönetici</span>
+                <span>{t('common.admin')}</span>
               </div>
             )}
 
             {isAdmin ? (
-              <div className="flex items-center gap-3">
-                <span className="hidden lg:block text-sm text-gray-600 dark:text-gray-300">
-                  Hoş geldin, admin
-                </span>
-                <button
-                  onClick={logout}
-                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-600 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-                >
-                  <span className="truncate">Çıkış Yap</span>
-                </button>
-              </div>
+              <button
+                onClick={logout}
+                className="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-600 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+              >
+                <span className="truncate">{t('nav.logout')}</span>
+              </button>
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 hover:bg-primary/30 transition-colors text-primary text-sm font-bold leading-normal tracking-[0.015em]"
+                className="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 hover:bg-primary/30 transition-colors text-primary text-sm font-bold leading-normal tracking-[0.015em]"
               >
-                <span className="truncate">Giriş Yap</span>
+                <span className="truncate">{t('nav.login')}</span>
               </button>
             )}
 

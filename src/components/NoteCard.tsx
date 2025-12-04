@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Note } from '@/types';
 import { formatRelativeTime } from '@/utils/date';
+import { translateText } from '@/utils/translate';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface NoteCardProps {
   note: Note;
@@ -13,6 +15,28 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
   const hasImage = !!note.imageUrl;
   const isPending = note.status === 'pending';
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const { language, t } = useLanguage();
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [translatedMessage, setTranslatedMessage] = useState<string | null>(null);
+  const [showTranslation, setShowTranslation] = useState(false);
+
+  const handleTranslate = async () => {
+    if (translatedMessage) {
+      setShowTranslation(!showTranslation);
+      return;
+    }
+
+    setIsTranslating(true);
+    try {
+      const translated = await translateText(note.message, language);
+      setTranslatedMessage(translated);
+      setShowTranslation(true);
+    } catch (error) {
+      console.error('Translation failed:', error);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
 
   return (
     <div className={`rounded-xl border p-6 shadow-sm ${
@@ -27,14 +51,30 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {note.name} - {formatRelativeTime(note.createdAt)}
               {showStatus && isPending && (
-                <span className="ml-2 text-amber-500">(Onay Bekliyor)</span>
+                <span className="ml-2 text-amber-500">({t('notes.pending')})</span>
               )}
             </p>
           </div>
           
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            {note.message}
+            {showTranslation && translatedMessage ? translatedMessage : note.message}
           </p>
+
+          {/* Translate Button */}
+          <button
+            onClick={handleTranslate}
+            disabled={isTranslating}
+            className="self-start flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-50"
+          >
+            <span className="material-symbols-outlined !text-sm">translate</span>
+            <span>
+              {isTranslating 
+                ? t('common.loading')
+                : showTranslation 
+                ? t('common.original')
+                : t('common.translate')}
+            </span>
+          </button>
 
           {/* Admin Actions */}
           {isPending && onApprove && onReject && (
@@ -44,14 +84,14 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
                 className="flex h-9 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-green-500/10 px-4 text-sm font-medium text-green-600 hover:bg-green-500/20 dark:bg-green-500/20 dark:text-green-400 dark:hover:bg-green-500/30 transition-colors"
               >
                 <span className="material-symbols-outlined !text-base">check_circle</span>
-                <span>Onayla</span>
+                <span>{t('notes.approve')}</span>
               </button>
               <button
                 onClick={() => onReject(note.id)}
                 className="flex h-9 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-500/10 px-4 text-sm font-medium text-red-500 hover:bg-red-500/20 dark:bg-red-500/20 dark:hover:bg-red-500/30 transition-colors"
               >
                 <span className="material-symbols-outlined !text-base">cancel</span>
-                <span>Reddet</span>
+                <span>{t('notes.reject')}</span>
               </button>
             </div>
           )}

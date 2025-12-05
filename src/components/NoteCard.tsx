@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Note } from '@/types';
 import { formatRelativeTime } from '@/utils/date';
 import { translateText } from '@/utils/translate';
@@ -24,6 +24,12 @@ export function NoteCard({ note, showStatus, onApprove, onReject }: NoteCardProp
   // Detect note language and check if translation is needed
   const noteLanguage = detectLanguage(note.message);
   const needsTranslation = noteLanguage !== language;
+
+  // Dil değiştiğinde çeviri state'ini sıfırla
+  useEffect(() => {
+    setTranslatedMessage(null);
+    setShowTranslation(false);
+  }, [language]);
 
   const handleTranslate = async () => {
     if (translatedMessage) {
